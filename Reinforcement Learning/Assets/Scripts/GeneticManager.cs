@@ -63,6 +63,7 @@ public class GeneticManager : MonoBehaviour
         {
             population[currentGenome].fitness = fitness;
             currentGenome++;
+            GenomeScript.genomeValue++;
             ResetToCurrentGenome();
         }
 
@@ -76,6 +77,7 @@ public class GeneticManager : MonoBehaviour
     {
         genePool.Clear();
         currentGeneration++;
+        GenerationScript.generationValue++;
         naturallySelected = 0;
         SortPopulation();
 
@@ -83,6 +85,14 @@ public class GeneticManager : MonoBehaviour
 
         Crossover(newPopulation);
         Mutate(newPopulation);
+
+        FillPopulationWithRandomValues(newPopulation, naturallySelected);
+
+        population = newPopulation;
+
+        currentGenome = 0;
+        GenomeScript.genomeValue=0;
+        ResetToCurrentGenome();
 
     }
 
@@ -129,13 +139,64 @@ public class GeneticManager : MonoBehaviour
                     Child1.weights[w] = population[BIndex].weights[w];
                 }
             }
+
+            for (int w = 0; w < Child1.biases.Count; w++)
+            {
+                if (Random.Range(0.0f, 1.0f) < 0.5f)
+                {
+                    Child1.biases[w] = population[AIndex].biases[w];
+                    Child2.biases[w] = population[BIndex].biases[w];
+                }
+
+                else
+                {
+                    Child2.biases[w] = population[AIndex].biases[w];
+                    Child1.biases[w] = population[BIndex].biases[w];
+                }
+            }
+
+            newPopulation[naturallySelected] = Child1;
+            naturallySelected++;
+
+            newPopulation[naturallySelected] = Child2;
+            naturallySelected++;
         }
     }
 
     private void Mutate(NNet[] newPopulation)
     {
+        
+        for(int i = 0; i < naturallySelected; i++)
+        {
+            for(int c = 0; c < newPopulation[i].weights.Count; c++)
+            {
+                if(Random.Range(0.0f, 1.0f) < mutationRate)
+                {
+                    newPopulation[i].weights[c] = MutateMatrix(newPopulation[i].weights[c]);
+                }
+            }
+        }
 
     }
+
+    Matrix<float> MutateMatrix(Matrix<float> A)
+    {
+        int randomPoints = Random.Range(1, (A.RowCount * A.ColumnCount) / 7);
+
+        Matrix<float> C = A;
+
+        for(int i = 0; i < randomPoints; i++)
+        {
+            int randomColumn = Random.Range(0, C.ColumnCount);
+            int randomRow = Random.Range(0, C.RowCount);
+
+
+            C[randomRow, randomColumn] = Mathf.Clamp(C[randomRow, randomColumn] + Random.Range(-1f, 1f), -1f, 1f);
+        }
+
+        return C;
+    }
+
 
     private NNet[] PickBestPopulation()
     {
