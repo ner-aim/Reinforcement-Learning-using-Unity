@@ -50,5 +50,5 @@ The goal: evolve a self-driving car agent that learns to navigate efficiently.
 
 ## 👤 Author
 Pradyumn K. Pottapatri  
-📍 Data Scientist | ML Engineer | NLP & Reinforcement Learning  
-[LinkedIn](https://www.linkedin.com/) | [GitHub](https://github.com/ner-aim)
+📍 Data Scientist | ML Engineer | NLP, Time Series, Reinforcement Learning, GenAI
+[LinkedIn](https://www.linkedin.com/in/pottapatri) | [GitHub](https://github.com/ner-aim)
