@@ -30,7 +30,7 @@ The goal: evolve a self-driving car agent that learns to navigate efficiently.
 ---
 
 ## 📊 Visual Demo
-![Car Simulation Demo](https://via.placeholder.com/600x300.png?text=Car+RL+Demo)
+![Car Simulation Demo](https://pottapatri.itch.io/reinforcement-learning)
 
 ---
 
